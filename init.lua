@@ -11,20 +11,11 @@ vim.cmd [[
   set runtimepath^=~/.local/share/lunarvim/lvim/after
 ]]
 -- vim.opt.rtp:append() instead of vim.cmd ?
-
-local function file_exists(name)
-  local f = io.open(name, "r")
-  if f ~= nil then
-    io.close(f)
-    return true
-  else
-    return false
-  end
-end
+local utils = require "utils"
 
 local lvim_path = os.getenv "HOME" .. "/.config/lvim/"
 USER_CONFIG_PATH = lvim_path .. "config.lua"
-local config_exist = file_exists(USER_CONFIG_PATH)
+local config_exist = utils.file_exists(USER_CONFIG_PATH)
 if not config_exist then
   USER_CONFIG_PATH = lvim_path .. "lv-config.lua"
   print "Rename ~/.config/lvim/lv-config.lua to config.lua"
@@ -53,7 +44,6 @@ plugin_loader:load { plugins, lvim.plugins }
 vim.g.colors_name = lvim.colorscheme -- Colorscheme must get called after plugins are loaded or it will break new installs.
 vim.cmd("colorscheme " .. lvim.colorscheme)
 
-local utils = require "utils"
 utils.toggle_autoformat()
 local commands = require "core.commands"
 commands.load(commands.defaults)

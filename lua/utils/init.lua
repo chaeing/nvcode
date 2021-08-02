@@ -65,6 +65,16 @@ function utils.generate_settings()
   io.close(file)
 end
 
+function utils.file_exists(filename)
+  local f = io.open(filename, "r")
+  if f ~= nil then
+    io.close(f)
+    return true
+  else
+    return false
+  end
+end
+
 -- autoformat
 function utils.toggle_autoformat()
   if lvim.format_on_save then
